@@ -1,0 +1,470 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WEOI 2026 Photo Hunt · Luxembourg City</title>
+<meta name="description" content="The official photo contest of the 4th Western-European Olympiad in Informatics. Snap 10 landmarks across Luxembourg City, 26–28 June 2026." />
+<link rel="icon" href="assets/weoi-lion.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+<style>
+  :root{
+    /* palette pulled from the WEOI logo */
+    --steel:#246084;
+    --steel-deep:#173f57;
+    --sky:#8fc4e1;
+    --sky-soft:#e3f0f8;
+    --rust:#c03c24;
+    --rust-deep:#9a2f1c;
+    --gold:#e4b454;
+    --gold-soft:#f6e2a6;
+    --cream:#fdf4dd;
+    --ink:#1b2530;
+    --muted:#5d6e7b;
+    --bg:#f1f7fb;
+    --surface:#ffffff;
+    --line:#d6e6ef;
+    --shadow:0 18px 40px -22px rgba(23,63,87,.45);
+    --shadow-sm:0 8px 22px -14px rgba(23,63,87,.45);
+    --r:18px;
+    --maxw:1120px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    font-family:"Nunito",system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--bg);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:"Fredoka",sans-serif;font-weight:600;line-height:1.08;margin:0}
+  a{color:inherit}
+  img{max-width:100%;display:block}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 22px}
+
+  .eyebrow{
+    font-family:"Space Mono",monospace;
+    text-transform:uppercase;
+    letter-spacing:.18em;
+    font-size:.72rem;
+    color:var(--rust);
+    margin:0 0 14px;
+  }
+
+  /* ---------- buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;gap:.5em;
+    font-family:"Fredoka",sans-serif;font-weight:600;font-size:1rem;
+    padding:.78em 1.4em;border-radius:999px;border:2px solid transparent;
+    cursor:pointer;text-decoration:none;transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn-primary{background:var(--rust);color:#fff;box-shadow:var(--shadow-sm)}
+  .btn-primary:hover{background:var(--rust-deep);transform:translateY(-2px)}
+  .btn-ghost{background:transparent;color:var(--steel-deep);border-color:var(--line)}
+  .btn-ghost:hover{background:var(--surface);border-color:var(--sky);transform:translateY(-2px)}
+  .btn svg{width:1.05em;height:1.05em}
+
+  /* ---------- header ---------- */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:rgba(241,247,251,.86);backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;height:68px;gap:20px}
+  .nav .logo{height:34px;width:auto}
+  .nav nav{display:flex;align-items:center;gap:26px}
+  .nav nav a{font-family:"Fredoka",sans-serif;font-weight:500;text-decoration:none;color:var(--steel-deep);font-size:.98rem}
+  .nav nav a.lnk:hover{color:var(--rust)}
+  .nav .btn{padding:.55em 1.1em;font-size:.92rem}
+  .menu-toggle{display:none}
+
+  /* ---------- hero ---------- */
+  .hero{position:relative;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;padding:64px 0 56px}
+  .badge-date{
+    display:inline-flex;align-items:center;gap:.55em;background:var(--sky-soft);color:var(--steel-deep);
+    border:1px solid var(--sky);border-radius:999px;padding:.4em 1em;font-family:"Space Mono",monospace;
+    font-size:.78rem;letter-spacing:.04em;
+  }
+  .badge-date b{color:var(--rust)}
+  .hero h1{font-size:clamp(2.6rem,6vw,4.5rem);font-weight:700;letter-spacing:-.01em;margin:20px 0 0}
+  .hero h1 .pop{color:var(--rust)}
+  .hero p.lead{font-size:1.18rem;color:var(--muted);max-width:34ch;margin:18px 0 28px}
+  .hero-cta{display:flex;flex-wrap:wrap;gap:14px}
+  .hero-stats{display:flex;gap:30px;margin-top:34px;flex-wrap:wrap}
+  .hero-stats .stat .n{font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.9rem;color:var(--steel)}
+  .hero-stats .stat .l{font-family:"Space Mono",monospace;text-transform:uppercase;letter-spacing:.12em;font-size:.68rem;color:var(--muted)}
+
+  /* hero art: polaroid stack + lion */
+  .hero-art{position:relative;min-height:340px}
+  .polaroid{
+    position:absolute;background:#fff;padding:12px 12px 42px;border-radius:10px;
+    box-shadow:var(--shadow);width:190px;
+  }
+  .polaroid .pic{height:150px;border-radius:5px;display:flex;align-items:center;justify-content:center;color:#fff}
+  .polaroid .cap{font-family:"Space Mono",monospace;font-size:.7rem;color:var(--muted);text-align:center;margin-top:10px}
+  .p1{transform:rotate(-7deg);top:6px;left:2%;z-index:1}
+  .p1 .pic{background:linear-gradient(150deg,var(--steel),var(--sky))}
+  .p2{transform:rotate(5deg);top:60px;right:6%;z-index:2}
+  .p2 .pic{background:linear-gradient(150deg,var(--gold),var(--rust))}
+  .lion-peek{position:absolute;bottom:-6px;left:50%;transform:translateX(-50%);width:500px;z-index:3;filter:drop-shadow(0 14px 22px rgba(154,47,28,.3))}
+
+  /* ---------- section frame ---------- */
+  section{padding:74px 0}
+  .sec-head{max-width:640px;margin:0 auto 48px;text-align:center}
+  .sec-head h2{font-size:clamp(2rem,4vw,2.7rem)}
+  .sec-head p{color:var(--muted);font-size:1.08rem;margin:14px 0 0}
+
+  /* ---------- how it works ---------- */
+  #how{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+  .step{text-align:center;padding:14px}
+  .step .ring{
+    width:74px;height:74px;border-radius:50%;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;
+    background:var(--sky-soft);border:2px solid var(--sky);
+  }
+  .step .ring svg{width:32px;height:32px;color:var(--steel)}
+  .step h3{font-size:1.25rem;margin-bottom:6px}
+  .step p{color:var(--muted);margin:0;font-size:.98rem}
+  .step .k{font-family:"Space Mono",monospace;color:var(--rust);font-size:.75rem;letter-spacing:.1em}
+
+  /* ---------- locations ---------- */
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+    display:flex;flex-direction:column;box-shadow:var(--shadow-sm);transition:transform .18s ease, box-shadow .18s ease;
+  }
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .frame{position:relative;aspect-ratio:4/3;overflow:hidden;background:linear-gradient(150deg,var(--steel-deep),var(--steel))}
+  .frame img{width:100%;height:100%;object-fit:cover}
+  .frame .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;color:rgba(255,255,255,.9)}
+  .frame .ph svg{width:38px;height:38px;opacity:.85;margin-bottom:8px}
+  .frame .ph span{font-family:"Space Mono",monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;opacity:.8}
+  .frame .num{
+    position:absolute;top:12px;left:12px;background:#fff;color:var(--rust);
+    font-family:"Space Mono",monospace;font-weight:700;font-size:1rem;
+    width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--shadow-sm);
+  }
+  .card-body{padding:20px 20px 22px;display:flex;flex-direction:column;flex:1}
+  .card-body h3{font-size:1.32rem}
+  .meta{font-family:"Space Mono",monospace;font-size:.7rem;color:var(--muted);letter-spacing:.03em;margin:5px 0 12px;display:flex;gap:4px;align-items:center}
+  .meta .dot{color:var(--sky)}
+  .card-body p.desc{color:var(--muted);font-size:.96rem;margin:8px 0 16px;flex:1}
+  .challenge{
+    background:var(--cream);border:1px dashed var(--gold);border-radius:12px;padding:10px 13px;
+    font-size:.9rem;color:#7a5a1b;display:flex;gap:9px;align-items:flex-start;line-height:1.45;
+  }
+  .meta svg{width:17px;height:17px;flex:none;margin-top:3px;}
+  .challenge b{font-family:"Fredoka",sans-serif;font-weight:600;color:var(--rust-deep)}
+
+  /* ---------- map ---------- */
+  #map{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .map-shell{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-sm);background:var(--bg)}
+  .map-shell iframe{width:100%;height:520px;border:0;display:block}
+  .map-fallback{padding:46px 24px;text-align:center;color:var(--muted)}
+  .map-fallback code{background:var(--sky-soft);padding:.2em .5em;border-radius:6px;font-size:.85em;color:var(--steel-deep)}
+  .map-note{text-align:center;color:var(--muted);font-size:.9rem;margin-top:16px}
+
+  /* ---------- rules ---------- */
+  #rules{background:var(--steel-deep);color:#eaf3f8;position:relative;overflow:hidden}
+  #rules .sec-head h2{color:#fff}
+  #rules .sec-head p{color:#bcd6e4}
+  #rules .eyebrow{color:var(--gold)}
+  .rules-list{max-width:760px;margin:0 auto;display:grid;gap:14px;counter-reset:r}
+  .rule{
+    display:flex;gap:16px;align-items:flex-start;background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:16px 18px;
+  }
+  .rule::before{
+    counter-increment:r;content:counter(r,decimal-leading-zero);
+    font-family:"Space Mono",monospace;font-weight:700;color:var(--gold);font-size:.95rem;flex:none;
+    width:34px;text-align:center;padding-top:1px;
+  }
+  .rule p{margin:0;color:#dcebf2;font-size:.99rem}
+  .rule b{color:#fff;font-family:"Fredoka",sans-serif;font-weight:600}
+
+  /* ---------- upload CTA ---------- */
+  #upload{text-align:center}
+  .upload-card{
+    max-width:720px;margin:0 auto;background:linear-gradient(160deg,var(--rust),var(--rust-deep));
+    color:#fff;border-radius:26px;padding:54px 32px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+  }
+  .upload-card::after{content:"";position:absolute;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08);right:-60px;top:-70px}
+  .upload-card .eyebrow{color:var(--gold-soft)}
+  .upload-card h2{color:#fff;font-size:clamp(1.9rem,4vw,2.6rem);position:relative}
+  .upload-card p{color:#ffe6df;max-width:46ch;margin:14px auto 28px;position:relative}
+  .upload-card .btn-primary{background:#fff;color:var(--rust);font-size:1.08rem;position:relative}
+  .upload-card .btn-primary:hover{background:var(--gold-soft);color:var(--rust-deep)}
+  .upload-card .hint{font-family:"Space Mono",monospace;font-size:.74rem;color:#ffd9cf;margin-top:18px;letter-spacing:.03em}
+
+  /* ---------- footer ---------- */
+  footer.site{background:var(--bg);border-top:1px solid var(--line);padding:42px 0}
+  .foot{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .foot img{height:30px}
+  .foot .meta-f{font-family:"Space Mono",monospace;font-size:.78rem;color:var(--muted);text-align:right;line-height:1.7}
+  .foot a{color:var(--steel);text-decoration:none}
+  .foot a:hover{color:var(--rust)}
+
+  /* ---------- reveal animation ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .6s ease, transform .6s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  /* ---------- responsive ---------- */
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:8px;padding:44px 0 40px}
+    .hero-art{min-height:300px;order:-1}
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .steps{grid-template-columns:1fr;gap:30px}
+  }
+  @media(max-width:640px){
+    .nav nav{display:none}
+    .nav nav.open{display:flex;position:absolute;top:68px;left:0;right:0;flex-direction:column;align-items:flex-start;
+      background:var(--surface);border-bottom:1px solid var(--line);padding:18px 22px;gap:16px}
+    .menu-toggle{display:inline-flex;background:none;border:0;cursor:pointer;padding:6px}
+    .menu-toggle svg{width:26px;height:26px;color:var(--steel-deep)}
+    .grid{grid-template-columns:1fr}
+    .map-shell iframe{height:420px}
+    section{padding:54px 0}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .reveal{transition:none;opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site">
+  <div class="wrap nav">
+    <a href="#top"><img class="logo" src="assets/weoi2026-logo.png" alt="WEOI 2026" /></a>
+    <nav id="primaryNav">
+      <a class="lnk" href="#how">How it works</a>
+      <a class="lnk" href="#locations">The 10 stops</a>
+      <a class="lnk" href="#map">Map</a>
+      <a class="lnk" href="#rules">Rules</a>
+      <a class="btn btn-primary" style="color: #fff" href="https://www.dropbox.com/request/ryym4qxqooym2q00plb0" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+        Upload your photos
+      </a>
+    </nav>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div class="hero-copy reveal">
+      <span class="badge-date">📍 LUXEMBOURG CITY · <b>26–28 JUNE 2026</b></span>
+      <h1>Snap the city,<br><span class="pop">claim the prize.</span></h1>
+      <p class="lead">The official photo hunt of the 4th Western-European Olympiad in Informatics. Ten landmarks, three days, one roll of pictures.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="https://www.dropbox.com/request/ryym4qxqooym2q00plb0" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+          Upload your photos
+        </a>
+        <a class="btn btn-ghost" href="#locations">See the 10 stops</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="n">10</div><div class="l">Landmarks</div></div>
+        <div class="stat"><div class="n">3</div><div class="l">Days to shoot</div></div>
+        <div class="stat"><div class="n">1</div><div class="l">Photo per stop</div></div>
+      </div>
+    </div>
+    <div class="hero-art reveal" aria-hidden="true">
+      <div class="polaroid p2"><img class="pic" src="images/stop-08.jpg" alt="Neimënster Abbey" loading="lazy"/>
+        <div class="cap">Stop 8 - Neimënster Abbey</div></div>
+      <div class="polaroid p1"><img class="pic" src="images/stop-03.jpg" alt="Gëlle Fra" loading="lazy"/>
+        <div class="cap">Stop 3 - Gëlle Fra</div></div>
+      <img class="lion-peek" src="assets/weoi2026-logo.png" alt="" />
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>The Game in three Steps</h2>
+      <p>A friendly side-quest for everyone at WEOI - contestants, team leaders and guests alike.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-5.5-7-11a7 7 0 0114 0c0 5.5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+        <p class="k">STEP 01</p><h3>Visit</h3>
+        <p>Find your way to the landmarks scattered across Luxembourg City's old quarter.</p>
+      </div>
+      <div class="step reveal">
+        <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 012-2h2l1.5-2h7L17 6h2a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><circle cx="12" cy="12.5" r="3.5"/></svg></div>
+        <p class="k">STEP 02</p><h3>Snap</h3>
+        <p>Take the best shot of your team at any landmark.</p>
+      </div>
+      <div class="step reveal">
+        <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg></div>
+        <p class="k">STEP 03</p><h3>Upload</h3>
+        <p>Send your pictures through the Dropbox link before the deadline on sunday at 23:59.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOCATIONS ============ -->
+<section id="locations">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">The trail · 10 stops</p>
+      <h2>Ten landmarks to capture</h2>
+      <p>All within walking distance in the historic centre or a short tram ride away. Tick them off in any order you like.</p>
+    </div>
+    <div class="grid" id="cards"></div>
+  </div>
+</section>
+
+<!-- ============ MAP ============ -->
+<section id="map">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Plan your route</p>
+      <h2>The hunt, pinned</h2>
+      <p>Every stop on one map. Open it on your phone to navigate between landmarks.</p>
+    </div>
+    <div class="map-shell reveal"><iframe src="https://www.google.com/maps/d/u/0/embed?mid=18Tvt6pjiZp22ril_-a2TGAte4hfIMfE&ehbc=2E312F" width="640" height="480"></iframe>
+    </div>
+    <p class="map-note">Tip: the same ten stops are listed above with descriptions and photo challenges.</p>
+  </div>
+</section>
+
+<!-- ============ RULES ============ -->
+<section id="rules">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Read before you shoot</p>
+      <h2>Contest rules</h2>
+      <p>Short and simple: keep it fair, keep it safe, have fun.</p>
+    </div>
+    <div class="rules-list">
+      <div class="rule reveal"><p><b>Photograph your team</b> in front of at least one landmark.</p></div>
+      <div class="rule reveal"><p><b>One photo per landmark.</b> Each delegation can hand in one photo per landmark.</p></div>
+      <div class="rule reveal"><p><b>Shoot your own originals.</b> Photos must be taken by you during WEOI 2026. No stock images, no AI generations.</p></div>
+      <div class="rule reveal"><p><b>Name each file by your delegation and the stop number</b>, e.g. <code style="font-family:'Space Mono',monospace">LUX-03.jpg</code>, so we can match it to a delegation and a landmark.</p></div>
+      <div class="rule reveal"><p><b>Upload via the Dropbox link</b> before the end of the weekend.</p></div>
+      <div class="rule reveal"><p><b>Respect places and people.</b> Follow on-site rules, mind privacy, and never enter restricted areas or climb barriers.</p></div>
+      <div class="rule reveal"><p><b>By submitting</b> you allow your photos to be used as promotional material.</p></div>
+      <div class="rule reveal"><p><b>The winning delegation is announced after the competition.</b> Everyone in the winning delegation receives their prizes via post.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ UPLOAD ============ -->
+<section id="upload">
+  <div class="wrap">
+    <div class="upload-card reveal">
+      <p class="eyebrow">Finished the hunt?</p>
+      <h2>Drop your photos here</h2>
+      <p>Send your ten shots straight to the organisers through Dropbox. No account needed, just pick your files and upload.</p>
+      <a class="btn btn-primary" href="https://www.dropbox.com/request/ryym4qxqooym2q00plb0" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4m0 0l-4 4m4-4l4 4M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+        Upload your photos
+      </a>
+      <p class="hint">DEADLINE · SUN 28 JUNE 2026 · 23:59</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site">
+  <div class="wrap foot">
+    <img src="assets/weoi2026-logo.png" alt="WEOI 2026" />
+    <div class="meta-f">
+      4th Western-European Olympiad in Informatics<br>
+      26–28 June 2026 · Luxembourg City · <a href="https://weoi.org" target="_blank" rel="noopener">weoi.org</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ---------- the 10 locations ---------- */
+const STOPS = [
+  { name:"Huelen Zant",
+    desc:"“Huelen Zant” and translates literally to “Hollow Tooth” in English. It is a well-known historical site in Luxembourg City: a former fortress tower ruin in the old fortifications near the city center, often associated with medieval defensive structures.",
+    copyright:"https://lb.wikipedia.org/wiki/Huelen_Zant#/media/Fichier:Huelen_Zant.jpg" },
+  { name:"Chemin de la Corniche",
+    desc:"The Chemin de la Corniche is a scenic pedestrian promenade in the historic center of Luxembourg City. Often called “Europe’s most beautiful balcony,” it offers sweeping views over the Alzette Valley, the historic district of Grund, and the city's ancient fortifications, which are part of the UNESCO World Heritage Site designation.",
+    copyright:"https://www.luxembourg-city.com/fr/adresse/fortification/chemin-de-la-corniche" },
+  { name:"Gëlle Fra",
+    desc:"The Gëlle Fra (“Golden Lady”) is one of Luxembourg's most recognizable monuments. Erected in 1923, it commemorates the Luxembourg volunteers who served during the First World War and has become a symbol of freedom, remembrance, and national identity.",
+    copyright:"https://en.wikipedia.org/wiki/G%C3%ABlle_Fra#/media/File:G%C3%ABlle_Fra_World_War_I_Memorial_Luxembourg_City_13_04_2008.jpg" },
+  { name:"Tiirmschen “Mir wölle bleiwe wat mir sinn“",
+    desc:"“Mir wëlle bleiwe wat mir sinn” is a famous Luxembourgish phrase and the national motto of Luxembourg. It means “We want to remain what we are”. The motto expresses the desire to preserve the country's identity, language, culture, and traditions. It symbolizes independence, unity, and pride in Luxembourg's heritage.",
+    copyright:"https://www.visitluxembourg.com/de/attraktion/tiirmschen" },
+  { name:"Place Guillaume II", 
+    desc:"Place Guillaume II is one of the most important and lively squares in Luxembourg City. Located in the historic centre, it hosts markets, cultural events, and public gatherings. At the heart of the square stands the neoclassical City Hall, built between 1830 and 1838 on the site of a former Franciscan monastery. Guarding its main entrance are two impressive bronze lions created by Luxembourgish sculptor Auguste Trémont. These iconic lions have become symbols of the square and are among the most recognisable landmarks of Luxembourg City.",
+    copyright:"https://www.luxembourg-city.com/fr/adresse/monument/hotel-de-ville" },
+  { name:"Grand Ducal Palace", 
+    desc:"Grand Ducal Palace is the official residence of the Grand Duke of Luxembourg and one of the city’s most elegant landmarks. Built in a refined Renaissance style, it sits in the heart of the old town and is known for its ornate façade and summer guided tours that reveal its richly decorated interior.",
+    copyright:"https://www.luxembourg-city.com/en/place/iconic-buildings/grand-ducal-palace" },
+  { name:"Grand Duchess Charlotte",
+    desc:"Grand Duchess Charlotte was the reigning monarch of Luxembourg from 1919 to 1964 and is one of the most beloved figures in the country’s modern history. The memoial statue dedicated to her was inaugurated in 1990 and is located in Place de Clairefontaine, set just behind the Notre-Dame Cathedral.",
+    copyright:"https://de.wikipedia.org/wiki/Denkmal_der_Gro%C3%9Fherzogin_Charlotte#/media/Datei:Denkmal_Grande-Duchesse_Charlotte.jpg" },
+  { name:"Neimënster Abbey",
+    desc:"Neimënster Abbey is a historic former Benedictine abbey located in the Grund district of Luxembourg City, on the banks of the Alzette River. Today, it has been transformed into a vibrant cultural centre hosting concerts, exhibitions, conferences, and artistic residencies. Its calm riverside setting and blend of medieval architecture with modern cultural life make it one of the city’s most atmospheric landmarks.",
+    copyright:"https://www.luxembourg-city.com/en/place/museum/neimenster" },
+  { name:"Melusina Statue",
+    desc:"Melusina Statue is a bronze sculpture in Luxembourg City depicting the legendary figure Melusina, a mermaid from local folklore. According to the myth, she is linked to the founding story of Luxembourg through her marriage to Count Siegfried. The statue sits along the Alzette River in the Grund district, a quiet and scenic spot that reflects the fairy-tale atmosphere of the legend it represents.",
+    copyright:"https://www.luxembourg-city.com/de/ansicht/monument/melusina-statue" },
+  { name:"Philharmonie Luxembourg",
+    desc:"Philharmonie Luxembourg is a striking modern concert hall located in the Kirchberg district of Luxembourg City. Designed by architect Christian de Portzamparc, it is known for its distinctive forest of white columns at the entrance and world-class acoustics.",
+    copyright:"https://www.luxembourg-city.com/en/place/monument/philharmonie-luxembourg" },
+];
+
+const cards = document.getElementById('cards');
+STOPS.forEach((s, i) => {
+  const n = String(i + 1).padStart(2, '0');
+  const card = document.createElement('article');
+  card.className = 'card reveal';
+  card.innerHTML = `
+    <div class="frame">
+      <span class="num">${n}</span>
+      <img src="images/stop-${n}.jpg" alt="${s.name}" loading="lazy"
+           onload="this.style.opacity=1" style="opacity:0;transition:opacity .4s"
+           onerror="this.remove()">
+    </div>
+    <div class="card-body">
+      <h3>${s.name}</h3>
+      <p class="desc">${s.desc}</p>
+      <div class="meta">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 012-2h2l1.5-2h7L17 6h2a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><circle cx="12" cy="12.5" r="3.5"/></svg>
+        <a href="${s.copyright}">Source picture</a></div>
+    </div>`;
+  cards.appendChild(card);
+});
+
+/* ---------- mobile menu ---------- */
+const toggle = document.getElementById('menuToggle');
+const nav = document.getElementById('primaryNav');
+toggle.addEventListener('click', () => {
+  const open = nav.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => nav.classList.remove('open')));
+
+/* ---------- scroll reveal ---------- */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
